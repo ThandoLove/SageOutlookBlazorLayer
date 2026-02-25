@@ -1,0 +1,65 @@
+﻿@page "/tasks"
+@using Microsoft.AspNetCore.Components.Authorization
+@using SageX3OutlookApplication.DTOs
+@using SageX3OutlookApplication.Requests.TasksR
+@using SageX3OutlookWeb1.Apiservices
+@inject IApiClient ApiClient
+@inject AuthenticationStateProvider AuthProvider
+
+<h3>Tasks</h3>
+
+@if (_loading)
+{
+    <p>Loading tasks...</p>
+}
+else
+{
+    <button class="btn btn-primary mb-2" @onclick="CreateTask" disabled="@(!_canCreate)">
+        New Task
+    </button>
+
+    <div class="row">
+        @foreach (var task in _tasks)
+        {
+            <TaskCard Task="task" OnDelete="DeleteTask" CanDelete="_canDelete" />
+        }
+    </div>
+}
+
+@code {
+    private List<TaskDto> _tasks = new();
+    private bool _loading = true;
+    private bool _canCreate;
+    private bool _canDelete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        _canCreate = user.IsInRole("Admin") || user.IsInRole("Employee");
+        _canDelete = user.IsInRole("Admin");
+
+        _tasks = await ApiClient.GetTasksAsync();
+        _loading = false;
+    }
+
+    private async Task CreateTask()
+    {
+        var request = new CreateTaskRequest
+        {
+            Subject = "New Task",
+            Description = "Created from Outlook",
+            DueDate = DateTime.UtcNow.AddDays(1)
+        };
+
+        await ApiClient.CreateTaskAsync(request);
+        _tasks = await ApiClient.GetTasksAsync();
+    }
+
+    private async Task DeleteTask(Guid id)
+    {
+        await ApiClient.DeleteTaskAsync(id);
+        _tasks = await ApiClient.GetTasksAsync();
+    }
+}

@@ -1,0 +1,34 @@
+﻿@page "/attachments"
+@using SageX3OutlookApplication.Requests.AttachmentR
+@using SageX3OutlookWeb1.Apiservices
+@inject IApiClient ApiClient
+
+<h3>Upload Attachment</h3>
+
+<InputFile OnChange="HandleUpload" />
+
+@if (!string.IsNullOrEmpty(_message))
+{
+    <div class="alert alert-success mt-2">@_message</div>
+}
+
+@code {
+    private string? _message;
+
+    private async Task HandleUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        using var stream = file.OpenReadStream();
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+
+        await ApiClient.UploadAttachmentAsync(new UploadAttachmentRequest
+        {
+            FileName = file.Name,
+            ContentType = file.ContentType,
+            Data = ms.ToArray()
+        });
+
+        _message = "Uploaded successfully.";
+    }
+}

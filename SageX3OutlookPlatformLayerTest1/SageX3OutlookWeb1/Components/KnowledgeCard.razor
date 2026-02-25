@@ -1,0 +1,15 @@
+﻿@using SageX3OutlookApplication.DTOs;
+
+<div class="card mb-3">
+    <div class="card-body">
+        <h5>@Knowledge.Title</h5>
+        <p>@Knowledge.Content</p>
+        <small class="text-muted">
+            Created: @Knowledge.CreatedAt.ToShortDateString()
+        </small>
+    </div>
+</div>
+
+@code {
+    [Parameter] public KnowledgeDto Knowledge { get; set; } = default!;
+}

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sage X3 Add-in - Taskpane</title>
+
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script src="./taskpane.js"></script>
+
+    <style>
+        html, body { height: 100%; margin: 0; }
+        #blazorFrame { width: 100%; height: 100%; border: 0; }
+        #notice { padding: 12px; font-family: Arial, Helvetica, sans-serif; }
+    </style>
+</head>
+<body>
+    <!--
+        This taskpane loads the Blazor app in an iframe for local testing.
+        The iframe src uses the application root ('/') which serves the Blazor host page.
+        When hosted inside Outlook the Office.js APIs will be available to the page.
+    -->
+
+    <div id="notice" style="display:none; background: #fff2f2; padding: 10px; border: 1px solid red;"></div>
+
+    <iframe id="blazorFrame" src="/" title="Sage X3 Blazor App"></iframe>
+
+    <script>
+        // Show a small notice when Office APIs are not available (browser test mode)
+        Office.onReady().then(() => {
+            const notice = document.getElementById('notice');
+            if (!window.Office || !Office.context) {
+                notice.textContent = 'Office APIs are not available in this browser context — running standalone test mode.';
+                notice.style.display = 'block';
+            } else {
+                notice.style.display = 'none';
+            }
+        }).catch(() => {
+            const notice = document.getElementById('notice');
+            notice.textContent = 'Office APIs are not available in this browser context — running standalone test mode.';
+            notice.style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿@page "/leads"
+@using Microsoft.AspNetCore.Components.Authorization
+@using SageX3OutlookApplication.Requests.LeadsR
+@using SageX3OutlookWeb1.Apiservices
+@inject IApiClient ApiClient
+@inject AuthenticationStateProvider AuthStateProvider
+
+<h3>Leads</h3>
+
+<EditForm Model="@leadModel" OnValidSubmit="SubmitLead">
+    <InputText @bind-Value="leadModel.CompanyName" placeholder="Company Name" />
+    <InputText @bind-Value="leadModel.Email" placeholder="Email" />
+    <button type="submit">Create Lead</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+}
+
+@code {
+    private CreateLeadRequest leadModel = new();
+    private string message = string.Empty;
+
+    private async Task SubmitLead()
+    {
+        var result = await ApiClient.CreateLeadAsync(leadModel, CancellationToken.None);
+        message = result.Success ? "Lead created successfully!" : $"Error: {result.Error}";
+        if (result.Success) leadModel = new CreateLeadRequest();
+    }
+}

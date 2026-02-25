@@ -1,0 +1,25 @@
+﻿@using SageX3OutlookApplication.DTOs;
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Contact.FirstName @Contact.LastName</h5>
+        <p class="card-text">
+            <strong>Email:</strong> @Contact.Email <br />
+            <strong>Phone:</strong> @Contact.Phone
+        </p>
+
+        @if (CanDelete)
+        {
+            <button class="btn btn-danger btn-sm"
+                    @onclick="() => OnDelete.InvokeAsync(Contact.Id)">
+                Delete
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public ContactDto Contact { get; set; } = default!;
+    [Parameter] public bool CanDelete { get; set; }
+    [Parameter] public EventCallback<Guid> OnDelete { get; set; }
+}

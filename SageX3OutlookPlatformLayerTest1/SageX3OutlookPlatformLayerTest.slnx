@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="SageX3OutlookAddin/SageX3OutlookAddin.csproj" />
+  <Project Path="SageX3OutlookAPI/SageX3OutlookAPI.csproj" />
+  <Project Path="SageX3OutlookApplication/SageX3OutlookApplication.csproj" />
+  <Project Path="SageX3OutlookDomain/SageX3OutlookDomain.csproj" />
+  <Project Path="SageX3OutlookInfrastructure/SageX3OutlookInfrastructure.csproj" />
+  <Project Path="SageX3OutlookWeb1/SageX3OutlookWeb1.csproj" />
+</Solution>

@@ -1,0 +1,33 @@
+﻿@page "/knowledge"
+@using SageX3OutlookApplication.DTOs
+@using SageX3OutlookWeb1.Apiservices
+@inject IApiClient ApiClient
+
+<h3>Knowledge Base</h3>
+
+@if (_loading)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in _knowledge)
+        {
+            <KnowledgeCard Knowledge="item" />
+        }
+    </div>
+}
+
+@code {
+    private List<KnowledgeDto> _knowledge = new();
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Added 'default' to match the updated IApiClient signature
+        _knowledge = await ApiClient.GetKnowledgeAsync(default);
+        _loading = false;
+    }
+}
+

@@ -1,0 +1,39 @@
+﻿@using SageX3OutlookApplication.Requests;
+@using SageX3OutlookApplication.Requests.LeadsR
+
+<EditForm Model="_model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-2">
+        <label>Company Name</label>
+        <InputText class="form-control" @bind-Value="_model.CompanyName" />
+    </div>
+
+    <div class="mb-2">
+        <label>Email</label>
+        <InputText class="form-control" @bind-Value="_model.Email" />
+    </div>
+
+    <div class="mb-2">
+        <label>Phone</label>
+        <InputText class="form-control" @bind-Value="_model.Phone" />
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+        Create Lead
+    </button>
+</EditForm>
+
+@code {
+    private CreateLeadRequest _model = new();
+
+    [Parameter]
+    public EventCallback<CreateLeadRequest> OnSubmit { get; set; }
+
+    private async Task HandleSubmit()
+    {
+        await OnSubmit.InvokeAsync(_model);
+        _model = new CreateLeadRequest();
+    }
+}

@@ -1,0 +1,25 @@
+﻿@using SageX3OutlookApplication.DTOs
+
+<div class="card mb-3 border-left-primary">
+    <div class="card-body">
+        <h5>@Task.Subject</h5>
+        <p>@Task.Description</p>
+        <small class="text-muted">Due: @Task.DueDate.ToShortDateString()</small>
+
+        <div class="mt-2">
+            @if (CanDelete)
+            {
+                <button class="btn btn-danger btn-sm"
+                        @onclick="() => OnDelete.InvokeAsync(Task.Id)">
+                    Delete
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public TaskDto Task { get; set; } = default!;
+    [Parameter] public bool CanDelete { get; set; }
+    [Parameter] public EventCallback<Guid> OnDelete { get; set; }
+}

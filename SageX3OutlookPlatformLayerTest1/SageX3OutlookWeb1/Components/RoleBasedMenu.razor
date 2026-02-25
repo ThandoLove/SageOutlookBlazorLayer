@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthProvider
+
+<nav class="nav flex-column">
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/contacts">Contacts</a>
+    <a class="nav-link" href="/leads">Leads</a>
+    <a class="nav-link" href="/tasks">Tasks</a>
+    <a class="nav-link" href="/knowledge">Knowledge</a>
+    <a class="nav-link" href="/timeline">Activity</a>
+
+    @if (_isAdmin)
+    {
+        <a class="nav-link text-danger" href="/admin">Admin</a>
+    }
+</nav>
+
+@code {
+    private bool _isAdmin;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthProvider.GetAuthenticationStateAsync();
+        _isAdmin = state.User.IsInRole("Admin");
+    }
+}

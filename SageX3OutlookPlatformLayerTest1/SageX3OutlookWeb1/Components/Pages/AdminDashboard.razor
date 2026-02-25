@@ -1,0 +1,33 @@
+﻿@page "/admin"
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthProvider
+
+<h3>Admin Dashboard</h3>
+
+@if (!_isAdmin)
+{
+    <div class="alert alert-danger">
+        Access Denied
+    </div>
+}
+else
+{
+    <div class="card p-3">
+        <p>System Overview</p>
+        <ul>
+            <li>ERP Connection: Active</li>
+            <li>Token Cache: Enabled</li>
+            <li>Audit Logging: Enabled</li>
+        </ul>
+    </div>
+}
+
+@code {
+    private bool _isAdmin;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthProvider.GetAuthenticationStateAsync();
+        _isAdmin = state.User.IsInRole("Admin");
+    }
+}

@@ -1,0 +1,25 @@
+﻿@using SageX3OutlookApplication.DTOs
+
+
+@if (Logs == null || !Logs.Any())
+{
+    <p>No activity recorded.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var log in Logs)
+        {
+            <li class="list-group-item">
+                <strong>@log.Type</strong> - @log.Description
+                <div class="small text-muted">
+                    @log.CreatedAt.ToString("g")
+                </div>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter] public List<AuditLogDto> Logs { get; set; } = new();
+}

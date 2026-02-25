@@ -1,0 +1,6 @@
+@SageX3OutlookAPI_HostAddress = http://localhost:5075
+
+GET {{SageX3OutlookAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
