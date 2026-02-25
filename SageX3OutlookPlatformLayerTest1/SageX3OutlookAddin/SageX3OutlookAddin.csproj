@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SageX3OutlookWeb1\SageX3OutlookWeb1.csproj" />
+    <ProjectReference Include="..\SageX3OutlookApplication\SageX3OutlookApplication.csproj" />
   </ItemGroup>
 
 

@@ -1,8 +1,9 @@
-﻿using SageX3OutlookInfrastructure.Caching;
+﻿using SageX3OutlookApplication.Interfaces;
+using SageX3OutlookApplication.Responses;
+
+
 
 namespace SageX3OutlookInfrastructure.ERP_Authentication;
-
-
 
 public class SageAuthService : ISageAuthService
 {
@@ -16,10 +17,12 @@ public class SageAuthService : ISageAuthService
     public async Task<TokenResponse> GetTokenAsync()
     {
         var cached = await _cache.GetTokenAsync();
+
         if (cached != null && cached.ExpiresAt > DateTime.UtcNow)
             return cached;
 
-        // Simulate token retrieval
+        //Simulate token retrieval
+
         var token = new TokenResponse
         {
             AccessToken = Guid.NewGuid().ToString(),
@@ -27,6 +30,13 @@ public class SageAuthService : ISageAuthService
         };
 
         await _cache.StoreTokenAsync(token);
+
         return token;
     }
+
+    Task<TokenResponse> ISageAuthService.GetTokenAsync()
+    {
+        throw new NotImplementedException();
+    }
+  
 }

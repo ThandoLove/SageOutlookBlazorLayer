@@ -1,4 +1,5 @@
-﻿using SageX3OutlookInfrastructure.ERP_Authentication;
+﻿using SageX3OutlookApplication.Interfaces;
+using SageX3OutlookApplication.Responses;
 
 namespace SageX3OutlookInfrastructure.Caching;
 
